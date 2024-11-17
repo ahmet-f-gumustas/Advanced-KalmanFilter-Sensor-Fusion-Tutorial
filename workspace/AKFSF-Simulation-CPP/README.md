@@ -103,7 +103,3 @@ Continuing on from UKF Exercise 2, Implement the LIDAR update step using the Uns
 
 ### Capstone Project
 Starting from any filter base replace the ```kalmanfilter.cpp``` file. Program a filter to provide the best estimation performance for profiles 9,0 (It should also work on any other profiles aswell).
-
-## Authors ##
-
-This project was developed for the Technitute Course - Advanced Kalman Filtering and Sensor Fusion. Developed and produced by Dr. Steven Dumble.
