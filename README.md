@@ -4,11 +4,18 @@ An educational C++ project collection for learning and implementing **Linear Kal
 
 ## Projects
 
-| # | Project | Description | Sensors | Visualization |
-|---|---------|-------------|---------|---------------|
-| 00 | [AKFSF Simulation](00.AKFSF-Simulation-CPP/) | 2D vehicle tracking with LKF, EKF, UKF | GPS, Gyro, LIDAR | SDL2 real-time |
-| 01 | [EKF Robot Localization](01.EKF-RobotLocalization-CPP/) | Differential drive robot localization | Wheel Encoders, IMU, Range-Bearing | SDL2 real-time |
-| 02 | [EKF IMU+GPS Fusion](02.EKF-IMU-GPS-Fusion-CPP/) | 15-state IMU/GPS fusion with bias estimation | IMU (accel+gyro), GPS | Matplotlib plots |
+| # | Project | Description | Sensors | Status |
+|---|---------|-------------|---------|--------|
+| 00 | [AKFSF Simulation](00.AKFSF-Simulation-CPP/) | 2D vehicle tracking with LKF, EKF, UKF | GPS, Gyro, LIDAR | Done |
+| 01 | [EKF Robot Localization](01.EKF-RobotLocalization-CPP/) | Differential drive robot localization | Wheel Encoders, IMU, Range-Bearing | Done |
+| 02 | [EKF IMU+GPS Fusion](02.EKF-IMU-GPS-Fusion-CPP/) | 15-state IMU/GPS fusion with bias estimation | IMU (accel+gyro), GPS | Done |
+| 03 | UKF IMU+GPS Fusion | UKF version of 15-state fusion | IMU, GPS | Planned |
+| 04 | Error-State KF (ESKF) | Quaternion-based IMU+GPS fusion | IMU, GPS | Planned |
+| 05 | EKF-SLAM | Simultaneous Localization and Mapping | Encoders, IMU, Range-Bearing | Planned |
+| 06 | Particle Filter | Monte Carlo Localization | Encoders, IMU, Range-Bearing | Planned |
+| 07 | Multi-Sensor Fusion | IMU+GPS+Magnetometer+Barometer | IMU, GPS, Mag, Baro | Planned |
+| 08 | ROS2 Integration | Sensor fusion in ROS2 ecosystem | All | Planned |
+| 09 | Visual-Inertial Odometry | Camera + IMU 6-DOF estimation | Camera, IMU | Planned |
 
 ## Project Structure
 
@@ -262,6 +269,45 @@ Step-by-step guided exercises for initial conditions, prediction steps, and upda
 - [SDL2](https://www.libsdl.org/) — 2D graphics rendering (Projects 00 & 01)
 - [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf) — Font rendering (Projects 00 & 01)
 - [Python3 + Matplotlib + NumPy](https://matplotlib.org/) — Plotting (Project 02)
+
+## Roadmap — Future Projects
+
+The following projects are planned as natural extensions, listed in recommended learning order:
+
+### 03 — UKF IMU+GPS Fusion
+Replace the 15-state EKF (Project 02) with an **Unscented Kalman Filter**. Sigma point propagation eliminates the need for Jacobian derivation, and typically provides better performance under high nonlinearity.
+- **Key concepts:** High-dimensional UKF, sigma point scaling, augmented state noise
+- **Builds on:** Project 00 (UKF basics) + Project 02 (IMU+GPS pipeline)
+
+### 04 — Error-State Kalman Filter (ESKF)
+Industry-standard approach for IMU+GPS fusion. Separates the state into a *nominal state* (propagated by IMU) and a small *error state* (estimated by the filter). Uses **quaternion** attitude representation to avoid Euler angle singularities.
+- **Key concepts:** Error-state formulation, quaternion kinematics, multiplicative EKF
+- **Builds on:** Project 02 (15-state fusion)
+
+### 05 — EKF-SLAM (Simultaneous Localization and Mapping)
+Extend Project 01 by treating landmarks as **unknown**. The state vector grows to include landmark positions: `[robot_x, robot_y, theta, lm1_x, lm1_y, ...]`. The filter simultaneously localizes the robot and builds a map.
+- **Key concepts:** State augmentation, data association, map management, computational scaling
+- **Builds on:** Project 01 (robot localization with known landmarks)
+
+### 06 — Particle Filter (Monte Carlo Localization)
+Solve the robot localization problem (Project 01) using a **particle filter**. Handles non-Gaussian noise, multimodal distributions, and the kidnapped robot problem.
+- **Key concepts:** Sequential Monte Carlo, importance sampling, resampling strategies, particle deprivation
+- **Builds on:** Project 01 (same environment and sensors)
+
+### 07 — Multi-Sensor Fusion: IMU + GPS + Magnetometer + Barometer
+Extend Project 02 with additional sensors: **magnetometer** (absolute heading) and **barometer** (altitude). Each sensor has different update rates and reliability characteristics.
+- **Key concepts:** Heterogeneous sensor management, sensor health monitoring, graceful degradation
+- **Builds on:** Project 02 (IMU+GPS fusion)
+
+### 08 — Sensor Fusion with ROS2
+Port the existing projects into **ROS2** nodes. Publish/subscribe sensor data as ROS topics, compare custom filters against the `robot_localization` package, and work with real sensor hardware.
+- **Key concepts:** ROS2 ecosystem, real-time sensor pipelines, tf2 transforms, bag files
+- **Builds on:** All previous projects
+
+### 09 — Visual-Inertial Odometry (VIO)
+Fuse **camera** (feature tracking) with **IMU** data for 6-DOF pose estimation. The most advanced and currently relevant topic in autonomous vehicles and drones.
+- **Key concepts:** Feature detection/tracking, epipolar geometry, tightly-coupled visual-inertial fusion
+- **Builds on:** Project 02 + computer vision fundamentals
 
 ## License
 
